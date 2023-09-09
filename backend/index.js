@@ -25,7 +25,7 @@ app.get('/api/users', (req,res) => {
     console.log(users)
 });
 
-app.post('/api/products' , (req,res) => {
+app.post('/api/users' , (req,res) => {
     const user = {
         id: users.length + 1,
         name: req.body.name,
@@ -34,8 +34,21 @@ app.post('/api/products' , (req,res) => {
         dateReserve: req.body.dateReserve,
     };
 
-    products.push(user);
+    users.push(user);
     res.send(user);
+});
+
+app.delete('/api/users/:id' , (req,res) => {
+    const user = users.find(c => c.id === parseInt(req.params.id));
+    if (!user) {
+        return res.status(404).send('Usuario no encontrado');
+    }
+    else {
+        const index = users.indexOf(user);
+        users.splice(index,1);
+        res.send(user);
+        console.log('Usuario encontrado')
+    }
 });
 
 const port = process.env.port || 80;

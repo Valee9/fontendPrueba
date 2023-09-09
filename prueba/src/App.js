@@ -19,12 +19,12 @@ const App = () => {
   useEffect(() => { getData() }, []);
 
   const getData = async () => {
-    try{
-    const res = await axios.get(url);
-    setUsers(res.data)
-    console.log('resultados: ',users);
+    try {
+      const res = await axios.get(url);
+      setUsers(res.data)
+      console.log('resultados: ', users);
     }
-    catch(error){
+    catch (error) {
       console.log(error.message)
     }
   }
@@ -47,6 +47,27 @@ const App = () => {
     console.log(userSelect)
   }
 
+  const insertData = async () => {
+    try {
+      const res = await axios.post(url, userSelect);
+      console.log('Respuesta del servidor:', res.data);
+    }
+    catch (error) {
+      console.error('Error al realizar la inserción:', error);
+
+    }
+  };
+
+  const deleteData = async (id) => {
+    try {
+      const res = await axios.delete(`${url}/${id}`);
+      console.log('Respuesta del servidor:', res.data);
+    }
+    catch (error) {
+      console.error('Error al realizar la eliminación:', error);
+    }
+  };
+
   const closeModal = () => {
     setModalInsertar(false)
     setModalEliminar(false)
@@ -54,25 +75,25 @@ const App = () => {
   }
 
   return (
-    <div> 
-      <p style={{fontSize: '2rem'}}>INAISO</p>
     <div>
-      <button className="btn btn-success ms-5" onClick={()=>abrirAgregar()}>Agregar</button>
-    </div>
-    
-    <div>
-      <table className="table table-bordered table-striped table-hover w-75 ms-5 mt-2">
-        <thead className="thead thead-dark">
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Aplicación</th>
-            <th>Duración</th>
-            <th>Fecha de reserva</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id='body'>
+      <p style={{ fontSize: '2rem' }}>INAISO</p>
+      <div>
+        <button className="btn btn-success ms-5" onClick={() => abrirAgregar()}>Agregar</button>
+      </div>
+
+      <div>
+        <table className="table table-bordered table-striped table-hover w-75 ms-5 mt-2">
+          <thead className="thead thead-dark">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Aplicación</th>
+              <th>Duración</th>
+              <th>Fecha de reserva</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id='body'>
             <tr>
               <td>1</td>
               <td>lala</td>
@@ -80,91 +101,182 @@ const App = () => {
               <td>nana</td>
               <td>nana</td>
               <td>
-                <button className="btn btn-warning me-2" onClick={()=>option('editar')}>Editar</button>
-                <button className="btn btn-danger" onClick={()=>option('eliminar')}>Eliminar</button>
+                <button className="btn btn-warning me-2" onClick={() => option('editar')}>Editar</button>
+                <button className="btn btn-danger" onClick={() => option('eliminar')}>Eliminar</button>
               </td>
             </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
+      <Modal isOpen={modalEditar}>
+        <ModalHeader toggle={closeModal}>Editar usuario</ModalHeader>
+        <ModalBody>
+          <label>Id</label>
+          <input
+            className="form-control"
+            type='text'
+            name='id'
+            disabled
+            value='id'
+          />
+          <br />
+          <label>Nombre</label>
+          <input
+            className="form-control"
+            type='text'
+            name='name'
+            value='nombre'
+            onChange={handleChange}
+          />
+          <br />
+          <label>Aplicación</label>
+          <input
+            className="form-control"
+            type='text'
+            name='aplicacion'
+            value='aplicacion'
+            onChange={handleChange}
+          />
+          <br />
+          <label>Duración</label>
+          <input
+            className="form-control"
+            type='int'
+            name='species'
+            value='duracion'
+            onChange={handleChange}
+          />
+          <br />
+          <label>Fecha</label>
+          <input
+            className="form-control"
+            type='date'
+            name='fecha'
+            value='fecha'
+            onChange={handleChange}
+          />
+          <br />
+        </ModalBody>
+        <ModalFooter>
+          <button className="btn btn-success">Aceptar</button>
+          <button className="btn btn-secondary" onClick={closeModal}>Cancelar</button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modalEliminar}>
+        <ModalHeader toggle={closeModal}>Eliminar usuario</ModalHeader>
+        <ModalBody>
+          <label>Id</label>
+          <input
+            className="form-control"
+            type='text'
+            name='id'
+            disabled
+            value='id'
+          />
+          <br />
+          <label>Nombre</label>
+          <input
+            className="form-control"
+            type='text'
+            name='name'
+            value='nombre'
+            disabled
+            onChange={handleChange}
+          />
+          <br />
+          <label>Aplicación</label>
+          <input
+            className="form-control"
+            type='text'
+            name='aplicacion'
+            value='aplicacion'
+            disabled
+            onChange={handleChange}
+          />
+          <br />
+          <label>Duración</label>
+          <input
+            className="form-control"
+            type='int'
+            name='species'
+            value='duracion'
+            disabled
+            onChange={handleChange}
+          />
+          <br />
+          <label>Fecha</label>
+          <input
+            className="form-control"
+            type='date'
+            name='fecha'
+            value='fecha'
+            disabled
+            onChange={handleChange}
+          />
+          <br />
+        </ModalBody>
+        <ModalFooter>
+          <button className="btn btn-success" onClick={deleteData}>Aceptar</button>
+          <button className="btn btn-secondary" onClick={closeModal}>Cancelar</button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modalInsertar}>
+        <ModalHeader toggle={closeModal}>Agregar usuario</ModalHeader>
+        <ModalBody>
+          <label>Id</label>
+          <input
+            className="form-control"
+            type='text'
+            name='id'
+            disabled
+            value=''
+          />
+          <br />
+          <label>Nombre</label>
+          <input
+            className="form-control"
+            type='text'
+            name='name'
+            value=''
+            onChange={handleChange}
+          />
+          <br />
+          <label>Aplicación</label>
+          <input
+            className="form-control"
+            type='text'
+            name='aplicacion'
+            value=''
+            onChange={handleChange}
+          />
+          <br />
+          <label>Duración</label>
+          <input
+            className="form-control"
+            type='int'
+            name='species'
+            value=''
+            onChange={handleChange}
+          />
+          <br />
+          <label>Fecha</label>
+          <input
+            className="form-control"
+            type='date'
+            name='fecha'
+            value=''
+            onChange={handleChange}
+          />
+          <br />
+        </ModalBody>
+        <ModalFooter>
+          <button className="btn btn-success" onClick={insertData}>Aceptar</button>
+          <button className="btn btn-secondary" onClick={closeModal}>Cancelar</button>
+        </ModalFooter>
+      </Modal>
     </div>
-    <Modal isOpen={modalEditar}>
-      <ModalHeader toggle={closeModal}>Editar usuario</ModalHeader>
-      <ModalBody>
-      <label>Id</label>
-            <input
-              className="form-control"
-              type='text'
-              name='id'
-              disabled
-              value='id'
-            />
-            <br />
-            <label>Nombre</label>
-            <input
-              className="form-control"
-              type='text'
-              name='name'
-              value='nombre'
-              onChange={handleChange}
-            />
-            <br />
-            <label>Aplicación</label>
-            <input
-              className="form-control"
-              type='text'
-              name='aplicacion'
-              value='aplicacion'
-              onChange={handleChange}
-            />
-            <br />
-            <label>Duración</label>
-            <input
-              className="form-control"
-              type='int'
-              name='species'
-              value='duracion'
-              onChange={handleChange}
-            />
-            <br />
-            <label>Fecha</label>
-            <input
-              className="form-control"
-              type='date'
-              name='fecha'
-              value='fecha'
-              onChange={handleChange}
-            />
-            <br />
-
-      </ModalBody>
-      <ModalFooter>
-        <button className="btn btn-success">Aceptar</button>
-        <button className="btn btn-secondary" onClick={closeModal}>Cancelar</button>
-      </ModalFooter>
-    </Modal>
-
-    <Modal isOpen={modalEliminar}>
-      <ModalHeader toggle={closeModal}>Eliminar usuario</ModalHeader>
-      <ModalBody>
-
-      </ModalBody>
-      <ModalFooter>
-        <button className="btn btn-success">Aceptar</button>
-        <button className="btn btn-secondary" onClick={closeModal}>Cancelar</button>
-      </ModalFooter>
-    </Modal>
-
-    <Modal isOpen={modalInsertar}>
-      <ModalHeader toggle={closeModal}>Agregar usuario</ModalHeader>
-      <ModalBody>
-
-      </ModalBody>
-      <ModalFooter>
-        <button className="btn btn-success">Aceptar</button>
-        <button className="btn btn-secondary" onClick={closeModal}>Cancelar</button>
-      </ModalFooter>
-    </Modal>
-  </div>
   )
 }
 

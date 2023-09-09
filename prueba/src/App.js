@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 const App = () => {
-  const url = 'http://localhost:80/api/users';
+  const url = 'http://localhost:3001/api/users';
   const [users, setUsers] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
@@ -25,7 +25,7 @@ const App = () => {
     console.log('resultados: ',users);
     }
     catch(error){
-      console.log(error)
+      console.log(error.message)
     }
   }
 

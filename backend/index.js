@@ -1,4 +1,5 @@
 const express= require('express');
+const mongoose = require('mongoose');
 const app = express();
 
 app.use(express.json());
@@ -15,6 +16,27 @@ const users = [
     {id: 9, name: 'Sergio Mendoza', app:'c', time:'276', dateReserve: '2021-02-12'},
     {id: 10, name: 'Natalia Rojas', app:'a', time:'165', dateReserve: '2020-04-24'}
 ];
+
+mongoose.connect('mongodb://localhost:27017/prueba', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+const db = mongoose.connection;
+
+db.on('connected', async() => {
+  console.log('Conexión correcta a la base de datos');
+  try {
+    await prueba.deleteMany();
+    await prueba.insertMany(users)
+    console.log('Datos cargados exitosamente en la base de datos');
+  }
+  catch (err) {
+    console.error('Error al cargar los datos:', err);}
+});
+
+db.on('error', (err) => {
+    console.error('Error de conexión a la base de datos:', err);
+  });
 
 app.get('/', (req,res) => {
     res.send('Node JS API Vale');
@@ -51,5 +73,5 @@ app.delete('/api/users/:id' , (req,res) => {
     }
 });
 
-const port = process.env.port || 80;
+const port = 3001;
 app.listen(port, () => console.log(`Escuchando en puerto ${port}...`));

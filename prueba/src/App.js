@@ -158,7 +158,7 @@ const App = () => {
           <br />
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-success">Aceptar</button>
+          <button className="btn btn-success" onClick={insertData}>Aceptar</button>
           <button className="btn btn-secondary" onClick={closeModal}>Cancelar</button>
         </ModalFooter>
       </Modal>
@@ -217,7 +217,7 @@ const App = () => {
           <br />
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-success" onClick={deleteData}>Aceptar</button>
+          <button className="btn btn-success" onClick={deleteData(id)}>Aceptar</button>
           <button className="btn btn-secondary" onClick={closeModal}>Cancelar</button>
         </ModalFooter>
       </Modal>

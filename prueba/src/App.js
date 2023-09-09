@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 const App = () => {
-  const url = `http://localhost:80/api/users`;
+  const url = 'http://localhost:80/api/users';
   const [users, setUsers] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
@@ -16,13 +16,18 @@ const App = () => {
     dataReserve: ''
   });
 
-  // useEffect(() => { getData() }, []);
+  useEffect(() => { getData() }, []);
 
-  // const getData = async () => {
-  //   const res = await axios.get(url);
-  //   setUsers(res.data)
-  //   console.log('resultados: ',users);
-  // }
+  const getData = async () => {
+    try{
+    const res = await axios.get(url);
+    setUsers(res.data)
+    console.log('resultados: ',users);
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
 
   const option = (action) => {
     if (action === 'editar')
@@ -52,9 +57,11 @@ const App = () => {
       <table className="table table-bordered table-striped table-hover w-75 ms-5 mt-2">
         <thead className="thead thead-dark">
           <tr>
-            <th>Número</th>
-            <th>Usuario</th>
-            <th>Reserva</th>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Aplicación</th>
+            <th>Duración</th>
+            <th>Fecha de reserva</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -62,6 +69,8 @@ const App = () => {
             <tr>
               <td>1</td>
               <td>lala</td>
+              <td>nana</td>
+              <td>nana</td>
               <td>nana</td>
               <td>
                 <button className="btn btn-warning me-2" onClick={()=>option('editar')}>Editar</button>

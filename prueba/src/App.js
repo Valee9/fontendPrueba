@@ -39,6 +39,13 @@ const App = () => {
     setUserSelect(null);
     setModalInsertar(true)
   }
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setUserSelect((prevState) => ({
+      ...prevState, [name]: value
+    }));
+    console.log(userSelect)
+  }
 
   const closeModal = () => {
     setModalInsertar(false)
@@ -83,6 +90,51 @@ const App = () => {
     <Modal isOpen={modalEditar}>
       <ModalHeader toggle={closeModal}>Editar usuario</ModalHeader>
       <ModalBody>
+      <label>Id</label>
+            <input
+              className="form-control"
+              type='text'
+              name='id'
+              disabled
+              value='id'
+            />
+            <br />
+            <label>Nombre</label>
+            <input
+              className="form-control"
+              type='text'
+              name='name'
+              value='nombre'
+              onChange={handleChange}
+            />
+            <br />
+            <label>Aplicación</label>
+            <input
+              className="form-control"
+              type='text'
+              name='aplicacion'
+              value='aplicacion'
+              onChange={handleChange}
+            />
+            <br />
+            <label>Duración</label>
+            <input
+              className="form-control"
+              type='int'
+              name='species'
+              value='duracion'
+              onChange={handleChange}
+            />
+            <br />
+            <label>Fecha</label>
+            <input
+              className="form-control"
+              type='date'
+              name='fecha'
+              value='fecha'
+              onChange={handleChange}
+            />
+            <br />
 
       </ModalBody>
       <ModalFooter>
